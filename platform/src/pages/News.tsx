@@ -1,38 +1,41 @@
+import React, { useState, useEffect } from "react";
 import NewsFeed from "@/components/news/NewsFeed";
+import { newsApi} from "@/api/newsApi"; 
+import { NewsArticle } from "@/types";
 
-const newsArticles = [
-  {
-    id: 1,
-    title: 'Результаты соревнований MicroMouse 2024',
-    excerpt: 'Завершилось захватывающее состязание среди автономных роботов-микромышей. Новые рекорды прохождения лабиринтов и неожиданные победители...',
-    image: '/assets/images/mouse.svg',
-    date: '2024-10-12',
-  },
-  {
-    id: 2,
-    title: 'Анонс Всероссийского турнира по робототехнике',
-    excerpt: 'Скоро стартует одно из крупнейших мероприятий в мире образовательной робототехники! Сотни команд из разных регионов сразятся в различных дисциплинах...',
-    image: '/placeholder.svg?height=200&width=300',
-    date: '2024-11-05',
-  },
-  {
-    id: 3,
-    title: 'Интервью с разработчиком соревновательного бота',
-    excerpt: 'Разработчик делится опытом создания робота, занявшего призовое место в прошлом году. Под капотом — машинное зрение, ROS и нестандартные решения...',
-    image: '/placeholder.svg?height=200&width=300',
-    date: '2024-11-20',
-  },
-  {
-    id: 4,
-    title: 'Новые технологии в мобильной робототехнике',
-    excerpt: 'Исследователи представили инновационные сенсоры и алгоритмы, которые могут существенно повысить эффективность навигации автономных роботов...',
-    image: '/placeholder.svg?height=200&width=300',
-    date: '2024-12-01',
-  },
-]
+const News: React.FC = () => {
+  const [articles, setArticles] = useState<NewsArticle[]>([]);
+  const [loading, setLoading] = useState(true);
 
-const News: React.FC = () => (
-    <NewsFeed articles={newsArticles} showAll={true} />
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const data = await newsApi.getAll();
+        setArticles(data);
+      } catch (error) {
+        console.error("Ошибка при загрузке списка новостей:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNews();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-[50vh] text-gray-400 text-xl">
+        Загрузка новостей...
+      </div>
+    );
+  }
+
+  return (
+    <NewsFeed 
+      articles={articles} 
+      showAll={true} 
+    />
   );
+};
 
-  export default News;
+export default News;

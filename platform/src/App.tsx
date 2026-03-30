@@ -29,6 +29,9 @@ import OrdersPage from "./pages/marketplace/OrdersPage";
 import MarketplacePage from "./pages/marketplace/MarketplacePage";
 import { CartProvider } from "./context/CartContext";
 import ProductCreatePage from "./pages/marketplace/ProductCreatePage";
+import AdminGalleryPage from "./components/admin/AdminGalleryPage";
+import AdminNewsPage from "./components/admin/AdminNewsPage";
+import NewsArticlePage from "./pages/NewsArticlePage";
 
 const RootRedirect: React.FC = () => {
   const { isAuthenticated, user, loading } = useAuth();
@@ -41,7 +44,7 @@ const RootRedirect: React.FC = () => {
     );
 
   if (!isAuthenticated) return <Navigate to="/" replace />;
-  if (user?.roles.includes("ADMIN")) return <Navigate to="/admin/dashboard" replace />;
+  if (user?.roles.includes("ADMIN")) return <Navigate to="/dashboard" replace />;
   return <Navigate to="/dashboard" replace />;
 };
 
@@ -56,6 +59,7 @@ const App: React.FC = () => {
           <Route path="/" element={<Home />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/news" element={<News />} />
+          <Route path="/news/:id" element={<NewsArticlePage />} />
           <Route path="/competitions" element={<CompetitionList />} /> 
  
           <Route path="/login" element={<LoginPage />} />
@@ -77,6 +81,10 @@ const App: React.FC = () => {
               <Route path="/account/competitions/new" element={<CompetitionForm />} />
               <Route path="/account/competitions/:id" element={<CompetitionDetails />} />
               <Route path="/account/competitions/:id/edit" element={<CompetitionForm />} />
+
+              <Route path="/account/gallery" element={<AdminGalleryPage />} />
+              <Route path="/account/news" element={<AdminNewsPage />} />
+
             </Route>
           </Route>
 

@@ -29,15 +29,14 @@ const Header: React.FC = () => {
 
   const getAccountLink = () => {
     if (!isAuthenticated) return "/login";
-    if (user?.roles.includes("ADMIN")) return "/admin/dashboard";
-    return "/account/dashboard";
+    return "/dashboard";
   };
 
   const accountButtonText = isAuthenticated ? (user?.username || "Мой кабинет") : "Войти";
 
   if (loading) {
     return (
-        <header className="absolute top-0 left-0 z-50 w-full bg-[#070707]">
+        <header className="absolute top-0 left-0 z-50 w-full bg-gray-900">
             <div className="max-w-[1440px] mx-auto px-4 md:px-6 lg:px-8 flex items-center justify-between min-h-[94px] gap-4">
                 <Link to="/" className="relative z-10 shrink-0">
                     <img src={logo} alt="Logo" className="max-h-[50px] w-auto" />
@@ -51,14 +50,14 @@ const Header: React.FC = () => {
   }
 
   return (
-    <header className="absolute top-0 left-0 z-50 w-full bg-[#070707]">
+    <header className="absolute top-0 left-0 z-50 w-full bg-gray-900">
       <div className="max-w-[1440px] mx-auto px-4 md:px-6 lg:px-8 flex items-center justify-between min-h-[94px] gap-4">
         <Link to="/" className="relative z-10 shrink-0" onClick={isMenuOpen ? toggleMenu : undefined}>
           <img src={logo} alt="Logo" className="max-h-[50px] w-auto" />
         </Link>
 
         <div
-          className={`md:hidden relative z-10 ml-auto w-[30px] h-[20px] ${isMenuOpen ? 'active' : ''}`}
+          className={`md:hidden relative z-10 ml-auto w-[30px] h-[20px] cursor-pointer ${isMenuOpen ? 'active' : ''}`}
           onClick={toggleMenu}
         >
           <span className={`absolute left-0 w-full h-[2px] bg-white top-[9px] transition-all duration-300 ease-in-out ${isMenuOpen ? 'scale-0' : ''}`}></span>
@@ -66,8 +65,7 @@ const Header: React.FC = () => {
           <span className={`absolute left-0 w-full h-[2px] bg-white transition-all duration-300 ease-in-out ${isMenuOpen ? '-rotate-45 bottom-[9px]' : 'bottom-0'}`}></span>
         </div>
 
-
-        <nav className={`md:flex-1 ${isMenuOpen ? 'fixed inset-0 bg-[#070707] pt-[100px] px-[10px] pb-[20px] overflow-auto' : 'hidden md:block'}`}>
+        <nav className={`md:flex-1 ${isMenuOpen ? 'fixed inset-0 bg-gray-900 pt-[100px] px-[10px] pb-[20px] overflow-auto' : 'hidden md:block'}`}>
           <ul className="md:flex md:justify-center md:gap-6 lg:gap-[40px]">
             {MENU.map(({ name, link }, index) => (
               <li key={index} className="md:mb-0 mb-5 text-center whitespace-nowrap">

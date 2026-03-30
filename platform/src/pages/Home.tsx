@@ -1,36 +1,43 @@
-import GallerySection from "@/components/gallery/GallerySection";
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-import mouseImage from "../assets/images/mouse.svg";
 import Hero from "@/components/Hero";
+import GallerySection from "@/components/gallery/GallerySection";
 import NewsFeed from "@/components/news/NewsFeed";
-
-const galleryItems = [
-    { id: 1, title: 'Соревнование 1', image: mouseImage },
-    { id: 2, title: 'Соревнование 2', image: mouseImage },
-    { id: 3, title: 'Соревнование 3', image: mouseImage },
-    { id: 4, title: 'Соревнование 4', image: mouseImage },
-]
-
-const newsArticles = [
-    {
-        id: 1,
-        title: 'Итоги чемпионата по плаванию 2023',
-        excerpt: 'Прошедший чемпионат по плаванию 2023 года стал одним из самых захватывающих за последнее десятилетие. Новые рекорды и неожиданные победы...',
-        image: '/placeholder.svg?height=200&width=300',
-        date: '2023-08-15',
-    },
-    {
-        id: 2,
-        title: 'Анонс соревнований по легкой атлетике',
-        excerpt: 'Готовьтесь к грандиозному событию! Уже через месяц стартуют международные соревнования по легкой атлетике. Ожидается участие спортсменов из более чем 50 стран...',
-        image: '/placeholder.svg?height=200&width=300',
-        date: '2023-09-01',
-    },
-]
+import { imageApi } from "@/api/imageApi";
+import { newsApi} from "@/api/newsApi";
+import { NewsArticle } from '@/types';
+import { ImageItem } from "@/types";
 
 const Home: React.FC = () => {
-
     const navigate = useNavigate();
+    const [galleryItems, setGalleryItems] = useState<ImageItem[]>([]);
+    const [newsArticles, setNewsArticles] = useState<NewsArticle[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        // Загружаем галерею и новости параллельно
+        const fetchData = async () => {
+            try {
+                const [galleryData, newsData] = await Promise.all([
+                    imageApi.getGalleryImages(),
+                    newsApi.getAll()
+                ]);
+                
+                setGalleryItems(galleryData);
+                setNewsArticles(newsData);
+            } catch (error) {
+                console.error("Ошибка загрузки данных для главной страницы:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    if (loading) {
+        return <div className="min-h-screen flex items-center justify-center text-white">Загрузка главной страницы...</div>;
+    }
 
     return (
         <>

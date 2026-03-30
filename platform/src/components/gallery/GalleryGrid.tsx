@@ -1,8 +1,8 @@
-import { GalleryItem } from "../types/gallery";
+import { ImageItem } from "@/types";
 import GalleryCard from "./GalleryCard";
 
 interface GalleryGridProps {
-    items: GalleryItem[];
+    items: ImageItem[];
   }
   
   const GalleryGrid: React.FC<GalleryGridProps> = ({ items }) => (

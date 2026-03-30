@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import heroImage from '../assets/images/hero.svg'
 
 const Hero: React.FC = () => {
@@ -15,12 +16,12 @@ const Hero: React.FC = () => {
               архивам и новостям из мира спорта.
             </p>
             <div>
-              <a 
-                href="/signup" 
+              <Link 
+                to="/register" 
                 className="inline-block px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors duration-300 text-lg"
               >
                 Зарегистрироваться
-              </a>
+              </Link>
             </div>
           </div>
           <div className="w-full md:w-1/2">

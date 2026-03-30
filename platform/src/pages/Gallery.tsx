@@ -1,23 +1,53 @@
+import React, { useState, useEffect } from "react";
 import GallerySection from "@/components/gallery/GallerySection";
-import mouseImage from "../assets/images/mouse.svg";
+// Убедись, что путь до твоего API файла правильный
+import { imageApi } from "@/api/imageApi"; 
+import { ImageItem } from "@/types";
 
-const galleryItems = [
-    { id: 1, title: 'Соревнование 1', image: mouseImage },
-    { id: 2, title: 'Соревнование 2', image: mouseImage },
-    { id: 3, title: 'Соревнование 3', image: mouseImage },
-    { id: 4, title: 'Соревнование 4', image: mouseImage },
-    { id: 5, title: 'Соревнование 5', image: mouseImage },
-    { id: 6, title: 'Соревнование 6', image: mouseImage },
-    { id: 7, title: 'Соревнование 7', image: mouseImage },
-    { id: 8, title: 'Соревнование 8', image: mouseImage },
-    ]
+const Gallery: React.FC = () => {
+  const [images, setImages] = useState<ImageItem[]>([]);
+  const [loading, setLoading] = useState(true);
 
-const Gallery: React.FC = () => (
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const data = await imageApi.getGalleryImages();
+        setImages(data);
+      } catch (error) {
+        console.error("Ошибка при загрузке галереи:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchImages();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-64 text-gray-400">
+        Загрузка галереи...
+      </div>
+    );
+  }
+
+  // Если картинок нет
+  if (images.length === 0) {
+    return (
+      <div className="text-center py-20 text-gray-400">
+        <h2 className="text-3xl font-bold mb-4">Галерея пуста</h2>
+        <p>Администратор еще не загрузил фотографии.</p>
+      </div>
+    );
+  }
+
+  return (
     <GallerySection
       title="Все изображения"
-      items={galleryItems}
-      showAll
+      items={images}
+      showAll={true}
     />
   );
+};
 
-  export default Gallery;
+export default Gallery;

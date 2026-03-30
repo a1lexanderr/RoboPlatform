@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Users, Trophy, User as UserIcon, Shield } from 'lucide-react';
+import { Users, Trophy, User as UserIcon, Shield, FileText } from 'lucide-react';
 
 export const Dashboard: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   const { isAdmin } = useAuth();
@@ -9,9 +9,11 @@ export const Dashboard: React.FC<{ children?: React.ReactNode }> = ({ children }
 
   const tabs = [
     { id: 'teams', label: 'Мои команды', icon: Users, path: '/teams' },
-    { id: 'competitions', label: 'Соревнования', icon: Trophy, path: '/competitions' },
+    { id: 'competitions', label: 'Соревнования', icon: Trophy, path: '/account/competitions' },
     { id: 'profile', label: 'Профиль', icon: UserIcon, path: '/profile' },
-    ...(isAdmin ? [{ id: 'admin', label: 'Админ-панель', icon: Shield, path: '/admin' }] : [])
+    ...(isAdmin ? [{ id: 'admin-galley', label: 'Админ-галерея', icon: Shield, path: '/account/gallery' },
+      { id: 'admin-news', label: 'Админ-новости', icon: FileText, path: '/account/news' }
+    ] : [])
   ];
   
   const isActive = (path: string) => location.pathname.startsWith(path);

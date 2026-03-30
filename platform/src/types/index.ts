@@ -195,3 +195,18 @@ export interface OrderResponse {
 export interface CartItem extends ProductDTO {
   quantityInCart: number;
 }
+
+export interface ImageItem {
+  id: number;
+  title: string;
+  url: string;
+}
+
+export interface NewsArticle {
+  id: number;
+  title: string;
+  excerpt: string;
+  content: string;
+  imageUrl: string;
+  createdAt: string;
+}
