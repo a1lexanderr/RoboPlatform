@@ -2,16 +2,19 @@ package com.example.demo.user.service;
 
 import com.example.demo.common.dto.ImageDTO;
 import com.example.demo.common.exception.business.BusinessException;
+import com.example.demo.common.exception.business.ResourceNotFoundException;
 import com.example.demo.common.exception.business.user.UserNotFoundException;
 import com.example.demo.user.domain.User;
 import com.example.demo.user.dto.UserDTO;
 import com.example.demo.user.dto.UserProfileDTO;
 import com.example.demo.user.dto.UserRegistrationDTO;
+import com.example.demo.user.dto.UserUpdateDTO;
 import com.example.demo.user.mapper.UserMapper;
 import com.example.demo.user.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -83,6 +86,36 @@ public class UserServiceImpl implements UserService{
         );
     }
 
+    @Transactional
+    public UserProfileDTO updateProfile(String username, UserUpdateDTO updateDto) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
+        user.setFirstName(updateDto.firstName());
+        user.setLastName(updateDto.lastName());
+        user.setPhoneNumber(updateDto.phoneNumber());
+
+        User savedUser = userRepository.save(user);
+
+        ImageDTO imageDTO = null;
+        if (user.getImage() != null) {
+            imageDTO = new ImageDTO(
+                    user.getImage().getId(),
+                    user.getImage().getTitle(),
+                    user.getImage().getUrl()
+            );
+        }
+
+        return new UserProfileDTO(
+                user.getId(),
+                savedUser.getFirstName(),
+                savedUser.getLastName(),
+                user.getUsername(),
+                user.getEmail(),
+                savedUser.getPhoneNumber(),
+                imageDTO,
+                user.getRoles()
+        );
+    }
 
 }

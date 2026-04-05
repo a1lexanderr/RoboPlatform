@@ -10,7 +10,7 @@ export const Dashboard: React.FC<{ children?: React.ReactNode }> = ({ children }
   const tabs = [
     { id: 'teams', label: 'Мои команды', icon: Users, path: '/teams' },
     { id: 'competitions', label: 'Соревнования', icon: Trophy, path: '/account/competitions' },
-    { id: 'profile', label: 'Профиль', icon: UserIcon, path: '/profile' },
+    { id: 'profile', label: 'Профиль', icon: UserIcon, path: '/account/profile' },
     ...(isAdmin ? [{ id: 'admin-galley', label: 'Админ-галерея', icon: Shield, path: '/account/gallery' },
       { id: 'admin-news', label: 'Админ-новости', icon: FileText, path: '/account/news' }
     ] : [])

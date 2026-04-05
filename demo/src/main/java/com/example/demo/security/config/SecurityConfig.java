@@ -57,6 +57,8 @@ public class SecurityConfig {
                                 "/api/v1/teams/*/robot",
                                 "/api/v1/robots/*",
                                 "/api/v1/files/**",
+                                "/api/v1/gallery/**",
+                                "/api/v1/news/**",
                                 "/static/**", "/docs/**"
                         ).permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/competitions").hasRole("ADMIN")

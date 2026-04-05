@@ -33,6 +33,8 @@ import AdminGalleryPage from "./components/admin/AdminGalleryPage";
 import AdminNewsPage from "./components/admin/AdminNewsPage";
 import NewsArticlePage from "./pages/NewsArticlePage";
 
+import UserProfilePage from "./pages/UserProfilePage"
+
 const RootRedirect: React.FC = () => {
   const { isAuthenticated, user, loading } = useAuth();
 
@@ -82,6 +84,7 @@ const App: React.FC = () => {
               <Route path="/account/competitions/:id" element={<CompetitionDetails />} />
               <Route path="/account/competitions/:id/edit" element={<CompetitionForm />} />
 
+              <Route path="/account/profile" element={<UserProfilePage />} />
               <Route path="/account/gallery" element={<AdminGalleryPage />} />
               <Route path="/account/news" element={<AdminNewsPage />} />
 

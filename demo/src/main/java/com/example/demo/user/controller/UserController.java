@@ -4,6 +4,7 @@ import com.example.demo.security.model.UserPrincipal;
 import com.example.demo.user.dto.UserDTO;
 import com.example.demo.user.dto.UserProfileDTO;
 import com.example.demo.user.dto.UserRegistrationDTO;
+import com.example.demo.user.dto.UserUpdateDTO;
 import com.example.demo.user.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -35,4 +36,12 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
+    @PutMapping("/me")
+    public ResponseEntity<UserProfileDTO> updateCurrentUser(
+            @AuthenticationPrincipal UserPrincipal principal,
+            @Valid @RequestBody UserUpdateDTO updateDto) {
+        
+        UserProfileDTO updatedUser = userService.updateProfile(principal.getUsername(), updateDto);
+        return ResponseEntity.ok(updatedUser);
+    }
 }
